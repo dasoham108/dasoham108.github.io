@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Sankalpa logo">
+  <defs>
+    <linearGradient id="sgBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8a1f"/>
+      <stop offset="1" stop-color="#ff4f74"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#sgBg)"/>
+    <path d="M32 49C20 51 11 45 7.5 36.5C17 34 27 39 32 49Z" fill="#fff" opacity=".7"/>
+    <path d="M32 49C44 51 53 45 56.5 36.5C47 34 37 39 32 49Z" fill="#fff" opacity=".7"/>
+    <path d="M32 49C20.5 45 15.5 33 18.5 22C27 25.5 32 36 32 49Z" fill="#fff" opacity=".88"/>
+    <path d="M32 49C43.5 45 48.5 33 45.5 22C37 25.5 32 36 32 49Z" fill="#fff" opacity=".88"/>
+    <path d="M32 9C40 18.5 43 28 41 36C39.5 43 35.5 47 32 49C28.5 47 24.5 43 23 36C21 28 24 18.5 32 9Z" fill="#fff"/>
+    <path d="M32 23C35 28 36.2 31 36.2 34A4.2 4.2 0 0 1 27.8 34C27.8 31 29 28 32 23Z" fill="url(#sgBg)"/>
+    <path d="M21 55H43" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+</svg>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fffaf5">
+<title>Sankalpa</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sankalpa">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>html,body{margin:0;background:#fffaf5;color:#86716a;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}#l{min-height:100vh;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;text-align:center;padding:16px}#l svg{border-radius:18px;box-shadow:0 8px 24px rgba(255,106,60,.25)}</style>
+</head>
+<body>
+<div id="l"><svg width="72" height="72" aria-hidden="true" viewBox="0 0 64 64"> <defs> <linearGradient id="sgBg" x1="0" y1="0" x2="1" y2="1"> <stop offset="0" stop-color="#ff8a1f"/> <stop offset="1" stop-color="#ff4f74"/> </linearGradient> </defs> <rect width="64" height="64" rx="16" fill="url(#sgBg)"/> <path d="M32 49C20 51 11 45 7.5 36.5C17 34 27 39 32 49Z" fill="#fff" opacity=".7"/> <path d="M32 49C44 51 53 45 56.5 36.5C47 34 37 39 32 49Z" fill="#fff" opacity=".7"/> <path d="M32 49C20.5 45 15.5 33 18.5 22C27 25.5 32 36 32 49Z" fill="#fff" opacity=".88"/> <path d="M32 49C43.5 45 48.5 33 45.5 22C37 25.5 32 36 32 49Z" fill="#fff" opacity=".88"/> <path d="M32 9C40 18.5 43 28 41 36C39.5 43 35.5 47 32 49C28.5 47 24.5 43 23 36C21 28 24 18.5 32 9Z" fill="#fff"/> <path d="M32 23C35 28 36.2 31 36.2 34A4.2 4.2 0 0 1 27.8 34C27.8 31 29 28 32 23Z" fill="url(#sgBg)"/> <path d="M21 55H43" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".9"/> </svg><span id="lt">Opening Sankalpa…</span></div>
+<script>
+/* Sankalpa runs here and keeps its data in the organizer's Google Sheet through this connector. */
+var API = "https://script.google.com/macros/s/AKfycbzsNAwUvRQnlLjAY-AIJt97hYqxA2Pn5g9DLG3iyE_AIVmLOu0iX5Eq4xyXFdADrVKizw/exec";
+function runner(ok, fail) {
+  return new Proxy({}, { get: function (_, name) {
+    if (name === "withSuccessHandler") return function (f) { return runner(f, fail); };
+    if (name === "withFailureHandler") return function (f) { return runner(ok, f); };
+    return function () {
+      var args = Array.prototype.slice.call(arguments);
+      fetch(API, { method: "POST", credentials: "omit", redirect: "follow", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ fn: name, args: args }) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) { if (j && j.ok) { if (ok) ok(j.result); } else if (fail) fail(new Error((j && j.error) || "Server error")); })
+        .catch(function (e) { if (fail) fail(e); });
+    };
+  } });
+}
+window.google = { script: {
+  get run() { return runner(); },
+  url: { getLocation: function (cb) { var p = {}; new URLSearchParams(location.search).forEach(function (v, k) { p[k] = v; }); cb({ parameter: p }); } }
+} };
+function load(n) {
+  fetch(API + "?raw=1", { credentials: "omit", redirect: "follow" })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function (h) { document.open(); document.write(h); document.close(); })
+    .catch(function () { if (n < 2) return setTimeout(function () { load(n + 1); }, 1500); document.getElementById("lt").textContent = "Couldn't open Sankalpa. Check your internet connection and reload the page."; });
+}
+load(0);
+</script>
+</body>
+</html>
